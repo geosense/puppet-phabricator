@@ -1,7 +1,7 @@
 class phabricator::phab_post_install_config (  
   $vcs_user        = $phabricator::params::vcs_user,
   $phd_user        = $phabricator::params::phd_user,
-  $timezone         = $phabricator::params::timezone,
+  $timezone        = $phabricator::params::timezone,
   ) {
   
   ini_setting { 'php_ini':
@@ -16,7 +16,7 @@ class phabricator::phab_post_install_config (
 
  
 
-  # TODO: remomve Defaults    requiretty
+  # TODO: remove Defaults    requiretty
   if ! defined (Class['sudo']) {
     class { 'sudo':
       purge               => false,

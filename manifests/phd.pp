@@ -20,10 +20,9 @@ class phabricator::phd (
 
   file { $phd_service_file:
     ensure  => present,
-    mode    => 0755,
+    mode    => '0644',
     content => template($phd_service_file_template),
-  }
-
+  } ~>
   service { $phd_service_name:
     ensure     => running,
     enable     => true,

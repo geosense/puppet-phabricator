@@ -1,0 +1,16 @@
+[Unit]
+Description=phabricator-phd
+After=syslog.target network.target
+Before=nginx.service
+User=www-data
+Group=www-data
+
+[Service]
+Type=oneshot
+Enviroment="PATH=/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=<%= @phd_path %>/phd start
+ExecStop=<%= @phd_path %>/phd stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

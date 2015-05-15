@@ -1,29 +1,31 @@
-class phabricator::apache_install ($phabdir = $phabricator::params::phabdir, $hostname = $phabricator::params::hostname) {
-  class { 'nginx':
-  }
+class phabricator::nginx_install 
+(
+  $phabdir = $phabricator::params::phabdir,
+  $hostname = $phabricator::params::hostname
+) {
+  include nginx
 
   package { 'php5-fpm': }
 
-  apache::vhost { $hostname:
-    port            => '80',
-    docroot         => "${$phabdir}/webroot",
-    custom_fragment => template('phabricator/apache-vhost-default.conf.erb'),
+  $www_root = "${phabdir}/webroot"
+
+  nginx::resource::vhost { "${hostname} ${name}":
+    ensure              => present,
+    www_root            => $www_root,
+    index_files     => ['index.php'],
+    location_raw_append => 
+'if ( !-f $request_filename )
+{
+  rewrite ^/(.*)$ /index.php?__path__=/$1 last;
+  break;
+}',
   }
 
-  $www_root = "${phabdir}/webroot",
-
-  nginx::resource::vhost { "${name}.${::domain} ${name}":
-    ensure                => present,
-    www_root              => $www_root,
-    index_files           => [ 'index.php' ],
-    try_files             => ['$uri $uri/ /index.php?$is_args$args'],    
-  }
-
-  nginx::resource::location { "${name}_root":
+  nginx::resource::location { "${hostname}_index":
     ensure          => present,
-    vhost           => "${name}.${::domain} ${name}",
+    vhost           => "${hostname} ${name}",
     www_root        => $www_root,
-    location        => '~ \.php$',
+    location        => '/index.php',
     index_files     => ['index.php', 'index.html', 'index.htm'],
     proxy           => undef,
     fastcgi         => 'unix:/var/run/php5-fpm.sock',
@@ -31,9 +33,9 @@ class phabricator::apache_install ($phabdir = $phabricator::params::phabdir, $ho
     location_cfg_append => {
       fastcgi_connect_timeout => '3m',
       fastcgi_read_timeout    => '3m',
-      fastcgi_send_timeout    => '3m'
+      fastcgi_send_timeout    => '3m',
       fastcgi_index           => 'index.php',
-      fastcgi_split_path_info => '^(.+\.php)(/.+)$'
+      fastcgi_split_path_info => '^(.+\.php)(/.+)$',
     }
   }
 

@@ -19,7 +19,6 @@ class phabricator::params {
   $git_libphutil = 'https://github.com/facebook/libphutil.git'
   $git_arcanist = 'https://github.com/facebook/arcanist.git'
   $git_phabricator = 'https://github.com/facebook/phabricator.git'
-  $phd_service_file = '/etc/init.d/phd'
   $phd_service_name = 'phd'
 
   # $::operatingsystem
@@ -29,6 +28,7 @@ class phabricator::params {
   case $::osfamily {
     'RedHat' : {
       $phd_service_file_template = 'phabricator/phd_rhel.erb'
+      $phd_service_file = '/etc/init.d/phd'
 
       case $::operatingsystemmajrelease {
         '6', '7' : {
@@ -67,11 +67,22 @@ class phabricator::params {
     }
 
     'Debian' : {
-      $phd_service_file_template = 'phabricator/phd.erb'
       $php_packages = ['dpkg-dev', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-json']
-
+      case $::operatingsystemmajrelease {
+        '8': {
+          $phd_service_file_template = 'phabricator/phd_systemd.erb'
+          $phd_service_file = '/lib/systemd/system/phd.service'
+        }
+        default : {
+          $phd_service_file_template = 'phabricator/phd.erb'
+          $phd_service_file = '/etc/init.d/phd'
+        }
+      }
       case $::operatingsystem {
-        'Ubuntu' : { $git_package = 'git_core' }
+        'Ubuntu' : { 
+          $git_package = 'git_core' 
+          $phd_service_file = '/etc/init.d/phd'
+        }
       }
     }
 

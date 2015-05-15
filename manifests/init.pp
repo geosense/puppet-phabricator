@@ -48,7 +48,7 @@ class phabricator (
 
   class { 'phabricator::phab_config':
     mysql_rootpass => $mysql_rootpass,
-    base_uri => $base_uri,
+    base_uri => "http://$hostname/",
     require        => Class['phabricator::phab_install']
   }
 
