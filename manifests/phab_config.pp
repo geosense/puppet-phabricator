@@ -34,7 +34,7 @@ class phabricator::phab_config (
       owner   => $owner,
       group   => $group,
       require => File[$confdir],
-      notify  => Service[$apache::params::service_name],
+      notify  => Service[$nginx::service::service_name],
     }
   }
 
@@ -47,8 +47,8 @@ class phabricator::phab_config (
     ensure  => present,
     path    => "${phabdir}/conf/local/ENVIRONMENT",
     content => "custom/default",
-    require => [Class['mysql::server'], Package[$apache::params::service_name], Class['phabricator::phab_install'], File[$conffile],],
-    notify  => [Service[$apache::params::service_name], Exec['upgrade_storage'],],
+    require => [Class['mysql::server'], Package[$nginx::params::package_name], Class['phabricator::phab_install'], File[$conffile],],
+    notify  => [Service[$nginx::service::service_name], Exec['upgrade_storage'],],
   }->
 
   phabricator::config_tool { 'set_mysql_host':

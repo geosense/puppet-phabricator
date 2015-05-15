@@ -26,9 +26,6 @@ class phabricator::params {
   # - Fedora
   #  -$::operatingsystemrelease
 
-  class { 'apache::params':
-  }
-
   case $::osfamily {
     'RedHat' : {
       $phd_service_file_template = 'phabricator/phd_rhel.erb'

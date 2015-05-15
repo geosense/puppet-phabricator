@@ -51,7 +51,7 @@ class phabricator::phab_install (
 
   group { $group:
     ensure  => present,
-    members => $apache::params::apache_name,
+    members => $nginx::params::global_group,
   }
 
   user { $phd_user:

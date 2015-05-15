@@ -41,7 +41,7 @@ class phabricator (
       ]
   }
 
-  class { 'phabricator::apache_install':
+  class { 'phabricator::nginx_install':
     hostname => "$hostname",
     require => Class['phabricator::phab_install']
   }
