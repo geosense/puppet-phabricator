@@ -10,10 +10,10 @@ off the `Phabricator installation guide <https://secure.phabricator.com/book/pha
 Details
 -------
 
-The module uses the ``apache``, ``vcsrepo``, ``inifile`` and ``mysql`` modules from
+The module uses the ``vcsrepo``, ``inifile`` and ``mysql`` modules from
 ``puppetlabs`` and the ``git`` module at ``rbjavier/puppet-git``.
 
-It configures an ``apache vhost`` and requires enough privileges to
+It configures an ``nginx vhost`` and requires enough privileges to
 access the ``mysql`` server as expected by the Phabricator
 installation. It is meant to perform a complete installation until the
 point where you need to add an admin account.
