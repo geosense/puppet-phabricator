@@ -35,6 +35,7 @@ class phabricator::params {
           $php_packages = [
             'php',
             'php-cli',
+            'php-fpm',
             'php-mysql',
             'php-process',
             'php-devel',
@@ -47,6 +48,7 @@ class phabricator::params {
           $php_packages = [
             'php53',
             'php53-cli',
+            'php53-fpm',
             'php53-mysql',
             'php53-process',
             'php53-devel',
@@ -67,7 +69,7 @@ class phabricator::params {
     }
 
     'Debian' : {
-      $php_packages = ['dpkg-dev', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-json']
+      $php_packages = ['dpkg-dev', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-fpm', 'php5-json']
       case $::operatingsystemmajrelease {
         '8': {
           $phd_service_file_template = 'phabricator/phd_systemd.erb'

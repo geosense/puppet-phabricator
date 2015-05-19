@@ -5,8 +5,6 @@ class phabricator::nginx_install
 ) {
   include nginx
 
-  package { 'php5-fpm': }
-
   $www_root = "${phabdir}/webroot"
 
   nginx::resource::vhost { "${hostname} ${name}":
