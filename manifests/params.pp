@@ -69,7 +69,7 @@ class phabricator::params {
     }
 
     'Debian' : {
-      $php_packages = ['dpkg-dev', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-fpm', 'php5-json']
+      $php_packages = ['dpkg-dev', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-json']
       case $::operatingsystemmajrelease {
         '8': {
           $phd_service_file_template = 'phabricator/phd_systemd.erb'
@@ -81,8 +81,8 @@ class phabricator::params {
         }
       }
       case $::operatingsystem {
-        'Ubuntu' : { 
-          $git_package = 'git_core' 
+        'Ubuntu' : {
+          $git_package = 'git_core'
           $phd_service_file = '/etc/init.d/phd'
         }
       }

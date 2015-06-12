@@ -29,7 +29,15 @@ class phabricator (
 
   class { 'phabricator::pear': require => Package[$phabricator::params::php_packages] }
 
-  package { $phabricator::params::php_packages: }
+  # hotfix preventing apache to be installed
+  # debian only!
+  package { 'php5-fpm':
+    ensure => 'latest',
+  }
+
+  package { $phabricator::params::php_packages:
+    require => Package['php5-fpm']
+  }
 
   if ! defined (Package[$phabricator::params::git_package]) { package { $phabricator::params::git_package: } }
 
